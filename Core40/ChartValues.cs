@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using LiveCharts.Charts;
 using LiveCharts.Configurations;
 using LiveCharts.Definitions.Series;
@@ -174,8 +175,7 @@ namespace LiveCharts
             var isObservable = isClass && typeof(IObservableChartPoint).IsAssignableFrom(typeof(T));
             var notifies = isClass && typeof(INotifyPropertyChanged).IsAssignableFrom(typeof(T));
 
-#endif
-#if NET45
+#else
             var isClass = typeof(T).GetTypeInfo().IsClass;
             var isObservable = isClass &&
                                typeof(IObservableChartPoint).GetTypeInfo().IsAssignableFrom(typeof(T).GetTypeInfo());
@@ -239,8 +239,7 @@ namespace LiveCharts
         {
 #if NET40
             var isclass = typeof(T).IsClass;
-#endif
-#if NET45
+#else
             var isclass = typeof(T).GetTypeInfo().IsClass;
 #endif
 
