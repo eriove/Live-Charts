@@ -58,7 +58,7 @@ namespace LiveCharts.SeriesAlgorithms
             var padding = castedSeries.RowPadding;
 
             var totalSpace = ChartFunctions.GetUnitWidth(AxisOrientation.Y, Chart, View.ScalesYAt) - padding;
-            var groups = Chart.View.ActualSeries.Select(s => (s as IGroupedStackedSeriesView)?.Grouping).Distinct().ToList();
+            var groups = Chart.View.ActualSeries.Select(s => (s as IStackedColumnSeriesView)?.Grouping).Distinct().ToList();
             var singleColHeigth = totalSpace / groups.Count();
 
             double exceed = 0;

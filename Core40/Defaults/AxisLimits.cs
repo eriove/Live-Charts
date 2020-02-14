@@ -38,12 +38,12 @@ namespace LiveCharts.Defaults
 
         internal static double UnitRight(AxisCore axis)
         {
-            return Math.Ceiling(axis.TopLimit/axis.Magnitude)*axis.Magnitude + 1;
+            return Math.Ceiling(axis.TopLimit/axis.Magnitude)*axis.Magnitude + 1.0;
         }
 
         internal static double UnitLeft(AxisCore axis)
         {
-            return Math.Floor(axis.BotLimit/axis.Magnitude)*axis.Magnitude - 1;
+            return Math.Floor(axis.BotLimit/axis.Magnitude)*axis.Magnitude - 1.0;
         }
 
         internal static double SeparatorMax(AxisCore axis)
@@ -58,7 +58,7 @@ namespace LiveCharts.Defaults
 
         internal static double SeparatorMin(AxisCore axis)
         {
-            return ((Math.Floor(axis.BotLimit/axis.S)) - 1.0)*axis.S;
+            return (Math.Floor(axis.BotLimit/axis.S) - 1.0)*axis.S;
         }
     }
 }

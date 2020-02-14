@@ -21,7 +21,6 @@
 //SOFTWARE.
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using LiveCharts.Definitions.Charts;
@@ -584,12 +583,12 @@ namespace LiveCharts.Charts
         protected void StackPoints(IEnumerable<ISeriesView> stackables, AxisOrientation stackAt, int stackIndex,
             StackMode mode = StackMode.Values)
         {
-            var groupedStackables = stackables.GroupBy(s => (s as IGroupedStackedSeriesView)?.Grouping).ToList();
+            var groupedStackables = stackables.GroupBy(s => s is IGroupedStackedSeriesView ? (s as IGroupedStackedSeriesView).Grouping : 0).ToList();
 
             foreach (var groupedStack in groupedStackables)
             {
                 var stackedColumns = groupedStack.SelectMany(x => x.ActualValues.GetPoints(x))
-                    .GroupBy(x => stackAt == AxisOrientation.X ? x.Y : x.X);
+                .GroupBy(x => stackAt == AxisOrientation.X ? x.Y : x.X);
 
                 double mostLeft = 0, mostRight = 0;
 
@@ -673,13 +672,13 @@ namespace LiveCharts.Charts
                             if (double.IsNaN(ax.MinValue))
                                 ax.BotLimit = mostLeft == 0.0
                                     ? 0.0
-                                    : (Math.Floor(mostLeft/ax.S) - 1.0)*ax.S;
+                                    : Math.Floor(mostLeft/ax.S)*ax.S;
                         if (mostRight > ax.TopLimit)
                             // ReSharper disable once CompareOfFloatsByEqualityOperator
                             if (double.IsNaN(ax.MaxValue))
                                 ax.TopLimit = mostRight == 0.0
                                     ? 0.0
-                                    : (Math.Floor(mostRight/ax.S) + 1.0)*ax.S;
+                                    : (Math.Floor(mostRight/ax.S) + 1.0) *ax.S;
                     }
                 }
 
@@ -699,13 +698,13 @@ namespace LiveCharts.Charts
                             if (double.IsNaN(ay.MinValue))
                                 ay.BotLimit = mostLeft == 0.0
                                     ? 0.0
-                                    : (Math.Floor(mostLeft/ay.S) - 1.0)*ay.S;
+                                    : Math.Floor(mostLeft/ay.S)*ay.S;
                         if (mostRight > ay.TopLimit)
                             // ReSharper disable once CompareOfFloatsByEqualityOperator
                             if (double.IsNaN(ay.MaxValue))
                                 ay.TopLimit = mostRight == 0.0
                                     ? 0.0
-                                    : (Math.Floor(mostRight/ay.S) + 1.0)*ay.S;
+                                    : (Math.Floor(mostRight/ay.S) + 1.0) *ay.S;
                     }
                 }
             }

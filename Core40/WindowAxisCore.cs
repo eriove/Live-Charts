@@ -99,13 +99,10 @@ namespace LiveCharts
             IAxisWindow proposedWindow = AxisWindows.EmptyWindow;
 
             // Build a range of possible separator indices
-            var start = (long) Math.Floor(BotLimit);
-            var count = (long) Math.Floor(TopLimit - (EvaluatesUnitWidth ? unit : 0.0) - BotLimit);
-            var end = start + count - 1;
-            var rangeIndices = LongRange(start, end).Select(i => (double)i);
-            
+            var rangeIndices = Enumerable.Range((int)Math.Floor(BotLimit), (int)Math.Floor(TopLimit - (EvaluatesUnitWidth ? unit : 0) - BotLimit)).Select(i => (double)i).ToList();
+
             // Make sure we have at least 2 separators to show
-            if (Windows != null && count > 1)
+            if (Windows != null && rangeIndices.Count > 1)
             {
                 foreach (var window in Windows)
                 {
@@ -121,7 +118,7 @@ namespace LiveCharts
                     // It might be it does not respect the supportedSeparatorCount parameter.
                     separatorIndices = proposedSeparatorIndices.ToList();
                     if (supportedSeparatorCount < separatorIndices.Count) continue;
-
+                    
                     // Pick this window. It is the first who passed both validations and our best candidate
                     proposedWindow = window;
                     break;
@@ -140,14 +137,6 @@ namespace LiveCharts
             SelectedWindow = proposedWindow;
 
             return separatorIndices;
-        }
-
-        private IEnumerable<long> LongRange(long start, long end)
-        {
-            for (long i = start; i <= end; i++)
-            {
-                yield return i;
-            }
         }
 
         private void DrawSeparator(double x, double tolerance, CoreMargin currentMargin, AxisOrientation source)
